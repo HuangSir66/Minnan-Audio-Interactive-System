@@ -126,7 +126,7 @@ import {sentBasePic} from "../api/papercut";
 </script>
 
 
-<style>
+<style scoped>
 	.alert-box-item {
 		overflow: hidden;
         display:flex;

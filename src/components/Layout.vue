@@ -59,7 +59,7 @@
         </router-link>
         <router-link
           class="nav-item"
-          to="/MoveTransform"
+          to="/puppettransfer"
           style="color: inherit; text-decoration: none;"
         >
         <img
