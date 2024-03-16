@@ -26,7 +26,7 @@
         </router-link>
         <router-link
           class="nav-item"
-          to="/minnan-laozhipian-xiufu"
+          to="/oldimgrepair"
           style="color: inherit; text-decoration: none;"
         >
         <img
@@ -37,7 +37,7 @@
         </router-link>
         <router-link
           class="nav-item"
-          to="/minnan-yinyue-qianyi"
+          to="/musictransfer"
           style="color: inherit; text-decoration: none;"
         >
         <img
@@ -48,7 +48,7 @@
         </router-link>
         <router-link
           class="nav-item"
-          to="/minnan-jianzhi-dongzuo-qianyi"
+          to="/movetransfer"
           style="color: inherit; text-decoration: none;"
         >
         <img
@@ -59,7 +59,7 @@
         </router-link>
         <router-link
           class="nav-item"
-          to="/muou-tou-biaoqing-qianyi"
+          to="/MoveTransform"
           style="color: inherit; text-decoration: none;"
         >
         <img
@@ -127,12 +127,7 @@ export default {};
   padding: 0 !important;
   /* border: 2px rgb(208, 56, 56) solid; */
 }
-#building {
-  background: url("../assets/main.jpg");
-  width: 100%;
-  height: 100%;
-  background-size: 100% 100%;
-}
+
 .item-image {
   width: 150px; /* 设置图片的宽度 */
   height: auto; /* 设置图片的高度为自动，以保持宽高比 */
