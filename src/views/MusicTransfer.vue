@@ -7,7 +7,7 @@
           @click="toGetImg"
     >
     <audio ref="audioPlayer" controls style="opacity: 0.8;"></audio>
-    <button @click="uploadData">上传音频及文字</button>
+    <button @click="uploadData" style="border-radius:100%">上传音频及文字</button>
     <div style="flex:1"></div>
     <div class='chose-music'>
         <img
@@ -102,6 +102,8 @@ export default {
       })
       .then(response => {
         alert('文件和文字数据上传成功');
+        console.log(response.data.midi_url);
+        this.$refs.audioPlayer.src = 'http://localhost:8000/'+response.data.midi_url;
         // 可以在这里处理后端返回的数据
       })
       .catch(error => {

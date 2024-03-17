@@ -3,7 +3,7 @@
 	<div class="imgall">
 		<div class="div-bigImg" @click="toGetImg">
 				<img class="Imgbig1" :src=valueUrl v-if="valueUrl">
-				<img class="Imgbig2" :src=valueUrl v-if="valueUrl">
+				<img class="Imgbig2" :src=outUrl v-if="outUrl">
 				<img
 						class="image-book"
 						src="@/assets/book.png"
@@ -14,6 +14,7 @@
 			class="image-old-button"
 			src="@/assets/oldImgbutton.png"
 			alt="按钮"
+			@click="downloadImage"
 		>
 	</div>
 </div>
@@ -21,11 +22,13 @@
 </template>
 
 <script>
+import axios from 'axios'
 	let inputElement = null
 	export default {
 		data() {
 			return {
-				valueUrl: ''
+				valueUrl: '',
+				outUrl:''
 			}
 		},
 		methods: {
@@ -67,12 +70,35 @@
 							// 读取完成后，将结果赋值给img的src
 							that.valueUrl = this.result;
 							console.log(this.result);
+							axios.post('http://localhost:8000/api/stylizer/oldimage/',{ image: reader.result.split(',')[1] })
+                                .then(response => {
+                                    // 处理后的base64编码图片数据
+                                    const stylizedImage = response.data.stylized_image;
+                                    // 更新显示处理后的图片
+                                    that.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
+                                })
+                                .catch(error => {
+                                    this.loading=false;
+                                    console.error('Error uploading image: ', error);
+                                });
 							// 数据传到后台
 						//const formData = new FormData()
 						//formData.append('file', files); // 可以传到后台的数据
 						};
 					}
 				}
+			},
+			downloadImage(){
+				if (this.outUrl) {
+                    const link = document.createElement('a');
+                    link.href = this.outUrl;
+                    link.download = 'stylized_image.jpg'; // 设置下载后的文件名
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    this.$message.error('请先上传图片');
+            }
 			}
 
 		},
@@ -147,6 +173,9 @@
 	width: 200px;
 	height: 100px;
 	cursor: pointer;
+}
+.image-old-button:hover{
+        transform: scale(1.1); /* 放大效果 */
 }
 #background-old-img{
 	background: url("../assets/oldImgBackground.jpg");

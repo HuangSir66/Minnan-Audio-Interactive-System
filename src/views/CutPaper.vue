@@ -97,16 +97,16 @@ import {sentBasePic} from "../api/papercut";
                 }
             },
             downloadImage() {
-            if (this.outUrl) {
-                const link = document.createElement('a');
-                link.href = this.outUrl;
-                link.download = 'stylized_image.jpg'; // 设置下载后的文件名
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } else {
-                this.$message.error('请先上传图片');
-        }
+                if (this.outUrl) {
+                    const link = document.createElement('a');
+                    link.href = this.outUrl;
+                    link.download = 'stylized_image.jpg'; // 设置下载后的文件名
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    this.$message.error('请先上传图片');
+            }
     },
 
         },
@@ -126,7 +126,7 @@ import {sentBasePic} from "../api/papercut";
 </script>
 
 
-<style scoped>
+<style >
 	.alert-box-item {
 		overflow: hidden;
         display:flex;

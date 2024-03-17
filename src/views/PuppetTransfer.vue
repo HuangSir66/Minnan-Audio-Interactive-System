@@ -1,26 +1,26 @@
 <template>
   <div class="puppet" id="puppet-v">
     <div class="lead">
-      <div class="puppetImg-div" @click="toGetImg">
-        <img class="puppetImg" :src=valueUrl v-if="valueUrl">
+      <div class="puppetImg-div" >
+        <img class="puppetImg">
         <img
             class="puppetimage-circle"
-            src="@/assets/puppet/frame.png"
+            src="@/assets/frame.png"
             alt="闽南剪纸迁移"
         >
       </div>
-      <img src="@/assets/puppet/leadbutton.png" class="puppetTag" @click="toGetImg">
+      <img src="@/assets/leadbutton.png" class="puppetTag" >
     </div>
     <div class="build">
       <div class="puppetImg-div" >
-        <img class="puppetImg" :src=outUrl v-if="outUrl">
+        <img class="puppetImg">
         <img
             class="puppetimage-circle"
-            src="@/assets/puppet/frame.png"
+            src="@/assets/frame.png"
             alt="闽南剪纸迁移"
         >
       </div>
-      <img src="@/assets/puppet/buildbutton.png" class="puppetTag" @click="downloadImage">
+      <img src="@/assets/buildbutton.png" class="puppetTag">
     </div>
   </div>
 
@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 .puppet {
   overflow: hidden;
   display:flex;
@@ -59,7 +59,7 @@ export default {
   position: absolute;
 }
 #puppet-v {
-  background: url("../assets/puppet/bg.jpg");
+  background: url("../assets/bg.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
