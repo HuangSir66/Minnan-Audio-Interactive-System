@@ -4,9 +4,10 @@ import Layout from '../components/Layout.vue'
 import CutPaper from '../views/CutPaper.vue'
 import MoveTransfer from '../views/MoveTransfer.vue'
 import OldImgRepair from '../views/OldImgRepair.vue'
-import OperaTransfer from '../views/OperaTransfer.vue'
+import ClothingTransfer from '../views/ClothingTransfer.vue'
 import MusicTransfer from '../views/MusicTransfer.vue'
 import PuppetTransfer from '../views/PuppetTransfer.vue'
+import HomePage from '../views/HomePage.vue'
 
 
 Vue.use(VueRouter)
@@ -17,6 +18,11 @@ const routes = [
     name: 'home',
     component: Layout,
     children:[
+      {
+        path:"/",
+        name:"homepage",
+        component:HomePage
+      },
       {
         path:"/cutpaper",
         name:"cutpaper",
@@ -33,9 +39,9 @@ const routes = [
         component:OldImgRepair
       },
       {
-        path:"/operatransfer",
-        name:"operatransfer",
-        component:OperaTransfer
+        path:"/clothingtransfer",
+        name:"clothingtransfer",
+        component:ClothingTransfer
       },
       {
         path:"/puppettransfer",

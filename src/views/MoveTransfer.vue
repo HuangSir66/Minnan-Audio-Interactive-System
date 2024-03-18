@@ -21,7 +21,7 @@ let inputElement = null;
 export default {
   data() {
     return {
-      valueUrl: ''
+      valueUrl: require('@/assets/puppet/video/video1.mp4')
     };
   },
   methods: {

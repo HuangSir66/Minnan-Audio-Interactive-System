@@ -68,16 +68,16 @@
             alt="木偶头表情迁移"
           >
         </router-link>
-        <!-- <router-link
+        <router-link
           class="nav-item"
-          to="/xiq-qu-dongzuo-qianyi"
+          to="/clothingtransfer"
           style="color: inherit; text-decoration: none;"
         >
         <img
             class="item-image"
             src="@/assets/operaTransfer.png"
-            alt="戏曲动作迁移"
-          > -->
+            alt="朝代服妆迁移"
+          >
         </router-link>
       </div>
     </el-header>
