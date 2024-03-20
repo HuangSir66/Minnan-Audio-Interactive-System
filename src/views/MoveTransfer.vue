@@ -78,10 +78,10 @@ export default {
             const formData = new FormData();
             formData.append("video", file);
             this.valueUrl = reader.result;
-            this.$message({
-              message: "视频上传成功，请等待",
-              type: "success",
-            });
+            // this.$message({
+            //   message: "视频上传成功，请等待",
+            //   type: "success",
+            // });
             axios
               .post("http://localhost:8000/api/stylizer/vidio", formData)
               .then((response) => {
@@ -160,7 +160,6 @@ export default {
   margin-left: 5px;
   margin-top: 96px;
   overflow: hidden;
-  border: 1px solid #ddd;
   position: absolute;
   z-index: 999;
   cursor: pointer;
