@@ -75,7 +75,7 @@
         >
         <img
             class="item-image"
-            src="@/assets/operaTransfer.png"
+            src="@/assets/dynasty.png"
             alt="朝代服妆迁移"
           >
         </router-link>

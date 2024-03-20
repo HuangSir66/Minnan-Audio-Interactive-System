@@ -9,23 +9,11 @@
             alt="闽南剪纸迁移"
         >
       </div>
-      <img src="@/assets/clothing/build.png" class="clothingTag" @click="toGetImg">
+      <img src="@/assets/clothing/build.png" class="clothingTag" @click="sentImage">
       <div class="allAlothing">
-        <div class="dynasty">
-          <img src="@/assets/clothing/hanclothing.png" class="dynastyClothing">
-          <img src="@/assets/clothing/han.png" class="dynastyButton">
-        </div>
-        <div class="dynasty">
-          <img src="@/assets/clothing/tangclothing.png" class="dynastyClothing">
-          <img src="@/assets/clothing/tang.png" class="dynastyButton">
-        </div>
-        <div class="dynasty">
-          <img src="@/assets/clothing/songclothing.png" class="dynastyClothing">
-          <img src="@/assets/clothing/song.png" class="dynastyButton">
-        </div>
-        <div class="dynasty">
-          <img src="@/assets/clothing/mingclothing.png" class="dynastyClothing">
-          <img src="@/assets/clothing/ming.png" class="dynastyButton">
+        <div v-for="(dynasty, index) in dynasties" :key="index" class="dynasty">
+          <img :src="dynasty.clothingSrc" class="dynastyClothing" :style="{ transform: isSelected(index) ? 'scale(1.1)' : 'scale(1)' }">
+          <img :src="dynasty.buttonSrc" class="dynastyButton" @click="selectDynasty(index,dynasty)">
         </div>
       </div>
     </div>
@@ -53,7 +41,15 @@ export default {
     return {
       valueUrl: '',
       outUrl:'',
-      loading: false  // 控制加载动画显示与隐藏
+      loading: false,  // 控制加载动画显示与隐藏
+      style: "",
+      selectedDynasty: null,
+      dynasties: [
+        { clothingSrc: require("@/assets/clothing/hanclothing.png"), buttonSrc: require("@/assets/clothing/han.png"),dynasties:'han_1' },
+        { clothingSrc: require("@/assets/clothing/tangclothing.png"), buttonSrc: require("@/assets/clothing/tang.png"),dynasties:'tang_2' },
+        { clothingSrc: require("@/assets/clothing/songclothing.png"), buttonSrc: require("@/assets/clothing/song.png"),dynasties:'song_1'  },
+        { clothingSrc: require("@/assets/clothing/mingclothing.png"), buttonSrc: require("@/assets/clothing/ming.png"),dynasties:'ming_1'  }
+      ]
     }
   },
   methods: {
@@ -76,43 +72,61 @@ export default {
     },
     uploadFile(el) {
       if (el && el.target && el.target.files && el.target.files.length > 0) {
-        console.log(el)
-        const files = el.target.files[0]
-        const isLt2M = files.size / 1024 / 1024 < 2
-        const size = files.size / 1024 / 1024
-        console.log(size,'result')
-        // 判断上传文件的大小
+        const files = el.target.files[0];
+        const isLt2M = files.size / 1024 / 1024 < 2;
+
         if (!isLt2M) {
-          this.$message.error('上传图片大小不能超过 2MB!')
-        } else if (files.type.indexOf('image') === -1) { //如果不是图片格式
-          // this.$dialog.toast({ mes: '请选择图片文件' });
+          this.$message.error('上传图片大小不能超过 2MB!');
+        } else if (files.type.indexOf('image') === -1) {
           this.$message.error('请选择图片文件');
         } else {
-          this.loading = true;
-          const that = this;
-          const reader = new FileReader(); // 创建读取文件对象
-          reader.readAsDataURL(el.target.files[0]); // 发起异步请求，读取文件
-          reader.onload = function() { // 文件读取完成后
-            // 读取完成后，将结果赋值给img的src
-            that.valueUrl = this.result;
-            that.outUrl = this.result;
-            console.log(this.result,"result");
-            // 使用axios发送POST请求到后端
-            sentBasePic({ image: reader.result.split(',')[1] })
-                .then(response => {
-                  // 处理后的base64编码图片数据
-                  this.loading=false;
-                  const stylizedImage = response.data.stylized_image;
-                  // 更新显示处理后的图片
-                  that.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
-                })
-                .catch(error => {
-                  this.loading=false;
-                  console.error('Error uploading image: ', error);
-                });
+          const reader = new FileReader();
+          reader.readAsDataURL(files);
+          reader.onload = () => {
+            this.valueUrl = reader.result;
+            
           };
+          
         }
       }
+    },
+    sentImage(){
+      if (!this.valueUrl) {
+        this.$message.error('请先上传图片');
+        return;
+      }
+      if(this.style==''){
+        this.$message.error('请先选择朝代');
+      }else{
+          this.$message({
+                message: '图片上传成功,正在生成',
+                type: 'success'
+          });
+         this.loading = true;
+         axios.post('http://localhost:8000/api/stylizer/clothing/', { 
+          image: this.valueUrl.split(',')[1],
+          style: this.style
+          
+        })
+        .then(response => {
+          this.loading = false;
+          const stylizedImage = response.data.stylized_image;
+          this.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
+        })
+        .catch(error => {
+          this.loading = false;
+          console.error('Error uploading image: ', error);
+        });
+      }
+      
+          
+    },
+    selectDynasty(index,dynasties) {
+      this.selectedDynasty = index;
+      this.style = dynasties.dynasties
+    },
+    isSelected(index) {
+      return this.selectedDynasty === index;
     },
     downloadImage() {
       if (this.outUrl) {
@@ -218,7 +232,7 @@ export default {
   border-radius: 5%;
 }
 #clothing-v {
-  background: url("../assets/clothing/bg.jpg");
+  background: url("../assets/clothing/bg2.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
@@ -242,14 +256,14 @@ export default {
   justify-content: flex-start;
   align-items: center;
   margin-top: 20px;
-  margin-right: 50px;
+  margin-right: 0px;
 }
 .buildImg{
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-right: 315px;
+  margin-right: 380px;
   margin-top: 10px;
 }
 

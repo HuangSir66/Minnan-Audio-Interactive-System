@@ -12,8 +12,8 @@
 		</div>
 		<img
 			class="image-old-button"
-			src="@/assets/oldImgbutton.png"
-			alt="按钮"
+			src="@/assets/download.png"
+			alt="下载按钮"
 			@click="downloadImage"
 		>
 	</div>
@@ -28,7 +28,9 @@ import axios from 'axios'
 		data() {
 			return {
 				valueUrl: '',
-				outUrl:''
+				outUrl:'',
+				imgHeight:'',
+				imgWidth:''
 			}
 		},
 		methods: {
@@ -53,12 +55,12 @@ import axios from 'axios'
 				if (el && el.target && el.target.files && el.target.files.length > 0) {
 					console.log(el)
 					const files = el.target.files[0]
-					const isLt2M = files.size / 1024 / 1024 < 2
+					const isLt2M = files.size / 1024 / 1024 < 4
 					const size = files.size / 1024 / 1024
 					console.log(size)
 					// 判断上传文件的大小
 					if (!isLt2M) {
-						this.$message.error('上传头像图片大小不能超过 2MB!')
+						this.$message.error('上传头像图片大小不能超过 4MB!')
 					} else if (files.type.indexOf('image') === -1) { //如果不是图片格式
 						// this.$dialog.toast({ mes: '请选择图片文件' });
 						this.$message.error('请选择图片文件');
@@ -66,21 +68,38 @@ import axios from 'axios'
 						const that = this;
 						const reader = new FileReader(); // 创建读取文件对象
 						reader.readAsDataURL(el.target.files[0]); // 发起异步请求，读取文件
+						this.$message({
+							message: '图片上传成功',
+							type: 'success'
+						});
+        
 						reader.onload = function() { // 文件读取完成后
 							// 读取完成后，将结果赋值给img的src
 							that.valueUrl = this.result;
-							console.log(this.result);
-							axios.post('http://localhost:8000/api/stylizer/oldimage/',{ image: reader.result.split(',')[1] })
-                                .then(response => {
-                                    // 处理后的base64编码图片数据
-                                    const stylizedImage = response.data.stylized_image;
-                                    // 更新显示处理后的图片
-                                    that.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
-                                })
-                                .catch(error => {
-                                    this.loading=false;
-                                    console.error('Error uploading image: ', error);
-                                });
+							const img = new Image();
+							img.src = reader.result;
+							img.onload = () => {
+								this.imgHeight = img.height;
+								this.imgWidth = img.width;
+								console.log('图片高度：', this.imgHeight, '图片宽度：', this.imgWidth);
+								// console.log(this.result);
+								axios.post('http://localhost:8000/api/stylizer/oldimage/',{ 
+									image: reader.result.split(',')[1],
+									width: this.imgWidth,
+									height: this.imgHeight 
+									})
+									.then(response => {
+										// 处理后的base64编码图片数据
+										const stylizedImage = response.data.stylized_image;
+										// 更新显示处理后的图片
+										that.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
+									})
+									.catch(error => {
+										this.loading=false;
+										console.error('Error uploading image: ', error);
+									});
+							};
+							
 							// 数据传到后台
 						//const formData = new FormData()
 						//formData.append('file', files); // 可以传到后台的数据
