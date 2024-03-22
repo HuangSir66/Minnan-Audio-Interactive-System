@@ -55,12 +55,12 @@ import axios from 'axios'
 				if (el && el.target && el.target.files && el.target.files.length > 0) {
 					console.log(el)
 					const files = el.target.files[0]
-					const isLt2M = files.size / 1024 / 1024 < 4
+					const isLt2M = files.size / 1024 / 1024 < 2
 					const size = files.size / 1024 / 1024
 					console.log(size)
 					// 判断上传文件的大小
 					if (!isLt2M) {
-						this.$message.error('上传头像图片大小不能超过 4MB!')
+						this.$message.error('上传头像图片大小不能超过 2MB!')
 					} else if (files.type.indexOf('image') === -1) { //如果不是图片格式
 						// this.$dialog.toast({ mes: '请选择图片文件' });
 						this.$message.error('请选择图片文件');
@@ -79,14 +79,10 @@ import axios from 'axios'
 							const img = new Image();
 							img.src = reader.result;
 							img.onload = () => {
-								this.imgHeight = img.height;
-								this.imgWidth = img.width;
-								console.log('图片高度：', this.imgHeight, '图片宽度：', this.imgWidth);
 								// console.log(this.result);
 								axios.post('http://localhost:8000/api/stylizer/oldimage/',{ 
 									image: reader.result.split(',')[1],
-									width: this.imgWidth,
-									height: this.imgHeight 
+
 									})
 									.then(response => {
 										// 处理后的base64编码图片数据
