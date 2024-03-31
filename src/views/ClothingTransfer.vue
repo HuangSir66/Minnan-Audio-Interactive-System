@@ -3,6 +3,7 @@
     <div class="leadImg">
       <div class="smallImg-div" @click="toGetImg">
         <img class="smallImg" :src=valueUrl v-if="valueUrl">
+        <div class="smallText" v-else>点击上传照片</div>
         <img
             class="smallimage-circle"
             src="@/assets/clothing/buildframe.png"
@@ -20,7 +21,7 @@
     <div class="buildImg">
       <div class="clothingImg-div" >
         <!-- <img class="bigImg" :src=valueUrl v-if="valueUrl"> -->
-        <img class="clothingImg" :src=outUrl v-if="outUrl">
+        <img class="clothingImg" :src=outUrl v-if="outUrl" @click="downloadImage">
         <img
             class="clothingimage-circle"
             src="@/assets/clothing/buildframe.png"
@@ -34,14 +35,14 @@
 
 <script>
 import axios from 'axios';
-import {sentBasePic} from "../api/papercut";
+import {sentClothImg} from "../api/index";
 let inputElement = null
 export default {
   data() {
     return {
       valueUrl: '',
       outUrl:'',
-      loading: false,  // 控制加载动画显示与隐藏
+      isImg: false,  // 控制加载动画显示与隐藏
       style: "",
       selectedDynasty: null,
       dynasties: [
@@ -102,14 +103,13 @@ export default {
                 message: '图片上传成功,正在生成',
                 type: 'success'
           });
-         this.loading = true;
-         axios.post('http://localhost:8000/api/stylizer/clothing/', { 
+         this.outUrl=require("../assets/loading.gif")
+         sentClothImg({ 
           image: this.valueUrl.split(',')[1],
           style: this.style
-          
         })
         .then(response => {
-          this.loading = false;
+          this.isImg = true
           const stylizedImage = response.data.stylized_image;
           this.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
         })
@@ -128,16 +128,20 @@ export default {
     isSelected(index) {
       return this.selectedDynasty === index;
     },
-    downloadImage() {
-      if (this.outUrl) {
+    downloadImage(event) {
+      if (this.isImg) {
         const link = document.createElement('a');
         link.href = this.outUrl;
         link.download = 'stylized_image.jpg'; // 设置下载后的文件名
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-      } else {
+      } else if(!this.valueUrl){
         this.$message.error('请先上传图片');
+      }else{
+        this.$message.error('正在加载中');
+        event.preventDefault();  
+        event.stopPropagation();  
       }
     },
 
@@ -232,7 +236,7 @@ export default {
   border-radius: 5%;
 }
 #clothing-v {
-  background: url("../assets/clothing/bg2.jpg");
+  background: url("@/assets/clothing/bg2.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
@@ -265,6 +269,14 @@ export default {
   align-items: center;
   margin-right: 380px;
   margin-top: 10px;
+}
+.smallText{
+  display: block;
+  margin-left: 136px;
+  margin-top: 156px;
+  z-index: 999;
+  color: #b1abab;
+  position: absolute;
 }
 
 </style>

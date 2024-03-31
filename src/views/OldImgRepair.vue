@@ -2,13 +2,14 @@
 <div class="container" id='background-old-img'>
 	<div class="imgall">
 		<div class="div-bigImg" @click="toGetImg">
-				<img class="Imgbig1" :src=valueUrl v-if="valueUrl">
-				<img class="Imgbig2" :src=outUrl v-if="outUrl">
-				<img
-						class="image-book"
-						src="@/assets/book.png"
-						alt="背景书"
-				>
+		<img class="Imgbig1" :src=valueUrl v-if="valueUrl">
+		<div class="smallText" v-else>点击上传照片</div>
+		<img class="Imgbig2" :src=outUrl v-if="outUrl">
+		<img
+				class="image-book"
+				src="@/assets/book.png"
+				alt="背景书"
+		>
 		</div>
 		<img
 			class="image-old-button"
@@ -23,14 +24,14 @@
 
 <script>
 import axios from 'axios'
+import {sentBaseOld} from '@/api/index'
 	let inputElement = null
 	export default {
 		data() {
 			return {
 				valueUrl: '',
 				outUrl:'',
-				imgHeight:'',
-				imgWidth:''
+				isvideo:false
 			}
 		},
 		methods: {
@@ -72,7 +73,7 @@ import axios from 'axios'
 							message: '图片上传成功',
 							type: 'success'
 						});
-        
+						this.outUrl=require("../assets/loading.gif")
 						reader.onload = function() { // 文件读取完成后
 							// 读取完成后，将结果赋值给img的src
 							that.valueUrl = this.result;
@@ -80,12 +81,12 @@ import axios from 'axios'
 							img.src = reader.result;
 							img.onload = () => {
 								// console.log(this.result);
-								axios.post('http://localhost:8000/api/stylizer/oldimage/',{ 
+								sentBaseOld({ 
 									image: reader.result.split(',')[1],
-
 									})
 									.then(response => {
 										// 处理后的base64编码图片数据
+										this.isvideo=true
 										const stylizedImage = response.data.stylized_image;
 										// 更新显示处理后的图片
 										that.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
@@ -96,24 +97,26 @@ import axios from 'axios'
 									});
 							};
 							
-							// 数据传到后台
-						//const formData = new FormData()
-						//formData.append('file', files); // 可以传到后台的数据
 						};
 					}
 				}
 			},
-			downloadImage(){
-				if (this.outUrl) {
+			downloadImage(event){
+				if (this.isvideo) {
                     const link = document.createElement('a');
                     link.href = this.outUrl;
                     link.download = 'stylized_image.jpg'; // 设置下载后的文件名
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                } else {
+                } else if(this.valueUrl=='') {
                     this.$message.error('请先上传图片');
-            }
+            	} else{
+					this.$message.error('系统加载中');
+                    // 如果图片被禁用，阻止点击事件的默认行为  
+                    event.preventDefault();  
+                    event.stopPropagation();  
+				}
 			}
 
 		},
@@ -197,6 +200,14 @@ import axios from 'axios'
 	width: 100%;
 	height: 100%;
 	background-size: 100% 100%;
+}
+.smallText{
+  display: block;
+  margin-left: 82px;
+  margin-top: 129px;
+  z-index: 999;
+  color: #b1abab;
+  position: absolute;
 }
 </style>
 

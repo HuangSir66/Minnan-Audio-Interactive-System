@@ -16,6 +16,7 @@
       <div class="puppetImg-div" >
         <video class="puppetImg" :src="outUrl" v-if="outUrl" controls>
         </video>
+        <img class="puppetImg" :src=loading v-else-if="loading">
         <img
             class="puppetimage-circle"
             src="@/assets/puppet/frame.png"
@@ -30,6 +31,7 @@
 
 <script>
 import axios from 'axios';
+import {sentPuppet} from "../api/index"
 
 let inputElement = null;
 export default {
@@ -37,7 +39,8 @@ export default {
   data() {
     return {
       valueUrl: '',
-      outUrl:''
+      outUrl:'',
+      loading:''
     };
   },
   methods: {
@@ -80,20 +83,21 @@ export default {
               message: "视频上传成功，请等待",
               type: "success",
             });
+            this.outUrl = ''
+            this.loading=require("../assets/loading.gif")
             // console.log(reader.result);
-            axios
-              .post("http://localhost:8000/api/stylizer/puppet/", formData)
+           sentPuppet(formData)
               .then((response) => {
                 // 上传成功后的操作
                 // console.log('视频上传成功','data:video/mp4;base64,'+response.data.base64_video);
                 
                 this.outUrl = "data:video/mp4;base64," + response.data.base64_video;
-                console.log(this.outUrl);
+                // console.log(this.outUrl);
               })
               .catch((error) => {
                 // 上传失败后的操作
-                console.error("视频上传失败", error);
-                this.$message.error("视频上传失败");
+                console.error("表情迁移失败", error);
+                this.$message.error("表情迁移失败");
               });
           };
           reader.readAsDataURL(file);
@@ -137,7 +141,7 @@ export default {
   border-radius: 5%;
 }
 #puppet-v {
-  background: url("../assets/puppet/bg.jpg");
+  background: url("@/assets/puppet/bg.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;

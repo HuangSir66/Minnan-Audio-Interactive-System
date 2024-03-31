@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import {sentMusic} from "../api/index"
 let inputElement = null
 export default {
   data(){
     return{
-      audioFile:''
+      audioFile:'',
+      isMusic:false
     }
   },
   methods: {
@@ -100,7 +100,11 @@ export default {
       if (!this.audioFile) {
         this.$message.error('请先选择音频文件');
         return;
+      }else if(this.isMusic==false){
+        this.$message.error('加载中，请等待');
+        return
       }
+      
 
 
       // 创建一个 FormData 对象，用于将文件上传到后端
@@ -116,30 +120,29 @@ export default {
 
       // 使用 Axios 发送 POST 请求上传文件和文字数据
       // 在axios的POST请求.then()中处理后端发送过来的mp3文件
-      axios.post('http://localhost:8000/api/stylizer/music/', formData, {
+      sentMusic(formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
         // 设置 responseType 为 'blob'，以便接收文件数据
-        responseType: 'blob'
       })
       .then(response => {
         this.$message({
           message: '音乐迁移成功',
           type: 'success'
         });
-        
+        // console.log('Response data type:', typeof response.data); 
+        // console.log(response)
+        this.isMusic=true;
         // 创建一个 Blob 对象，并使用 URL.createObjectURL 方法创建一个临时 URL
-        const blob = new Blob([response.data], { type: 'audio/mp3' });
-        const audioUrl = URL.createObjectURL(blob);
-        
-        // 设置音频播放器的src属性为临时 URL，并播放音频文件
-        this.$refs.audioPlayer.src = audioUrl;
+        const blob = new Blob([response.data], { type: 'audio/mpeg' });
+        const url = window.URL.createObjectURL(blob);
+        this.$refs.audioPlayer.src = url;
         // this.$refs.audioPlayer.play();
       })
       .catch(error => {
         console.error('上传文件出错:', error);
-        this.$message.error('上传文件出错');
+        this.$message.error('音乐迁移出错');
 
       });
 
@@ -170,7 +173,7 @@ export default {
 	align-items: center;
 }
 #music-background{
-  background: url("../assets/musicTransferBackground.jpg");
+  background: url("@/assets/musicTransferBackground.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;

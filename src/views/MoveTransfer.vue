@@ -14,6 +14,7 @@
           v-if="valueUrl"
           controls
         ></video>
+        <div class="smallText1" v-else>点击上传视频</div>
       </div>
       <img
         class="image-yichuhaoxi"
@@ -33,7 +34,7 @@
 
 <script>
 import axios from "axios";
-
+import {sentBaseVio} from '@/api/index'
 let inputElement = null;
 export default {
   data() {
@@ -82,8 +83,7 @@ export default {
             //   message: "视频上传成功，请等待",
             //   type: "success",
             // });
-            axios
-              .post("http://localhost:8000/api/stylizer/vidio", formData)
+            sentBaseVio(formData)
               .then((response) => {
                 // 上传成功后的操作
                 // console.log('视频上传成功','data:video/mp4;base64,'+response.data.base64_video);
@@ -94,7 +94,7 @@ export default {
               .catch((error) => {
                 // 上传失败后的操作
                 console.error("视频上传失败", error);
-                this.$message.error("视频上传失败");
+                this.$message.error("视频迁移失败");
               });
           };
           reader.readAsDataURL(file);
@@ -112,7 +112,7 @@ export default {
       }else if(this.valueUrl==''){
         this.$message.error('请上传视频');
       }else if(this.ourUrl==''){
-        this.$message.error('正在上传中');
+        this.$message.error('正在加载中');
       }
     },
   },
@@ -133,7 +133,7 @@ export default {
 
 <style>
 #building-e {
-  background: url("../assets/moveTransferBackground.jpg");
+  background: url("@/assets/moveTransferBackground.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
@@ -182,5 +182,13 @@ export default {
 }
 .image-button:hover{
   transform: scale(1.1); /* 放大效果 */
+}
+.smallText1{
+  display: block;
+  margin-left: 96px;
+  margin-top: 83px;
+  z-index: 999;
+  color: #b1abab;
+  position: absolute;
 }
 </style>
