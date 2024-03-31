@@ -14,16 +14,16 @@
     </div>
     <div class="build">
       <div class="puppetImg-div" >
-        <video class="puppetImg" v-if="GeneratedVideo" controls>
-          <source src="@/assets/puppet/video/video1.mp4" type="video/mp4">
+        <video class="puppetImg" :src="outUrl" v-if="outUrl" controls>
         </video>
+        <img class="puppetImg" :src=loading v-else-if="loading">
         <img
             class="puppetimage-circle"
             src="@/assets/puppet/frame.png"
             alt="木偶头表情迁移"
         >
       </div>
-      <img src="@/assets/puppet/buildbutton.png" class="puppetTag" @click="GetGeneratedVideo">
+      <img src="@/assets/puppet/buildbutton.png" class="puppetTag" >
     </div>
   </div>
 
@@ -31,6 +31,7 @@
 
 <script>
 import axios from 'axios';
+import {sentPuppet} from "../api/index"
 
 let inputElement = null;
 export default {
@@ -38,7 +39,8 @@ export default {
   data() {
     return {
       valueUrl: '',
-      GeneratedVideo : false
+      outUrl:'',
+      loading:''
     };
   },
   methods: {
@@ -60,21 +62,53 @@ export default {
       inputElement.click();
     },
     uploadVideo(event) {
-      if (event && event.target && event.target.files && event.target.files.length > 0) {
+      if (
+        event &&
+        event.target &&
+        event.target.files &&
+        event.target.files.length > 0
+      ) {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-          // 将视频显示在页面中
-          this.valueUrl = reader.result;
-        };
-        reader.readAsDataURL(file);
+        const isLt20M = file.size / 1024 / 1024 < 10;
+        if (!isLt20M) {
+          this.$message.error("上传视频大小不能超过 10MB!");
+        } else {
+          const reader = new FileReader();
+          reader.onload = () => {
+            // 使用 Axios 将视频发送到后端
+            const formData = new FormData();
+            formData.append("video", file);
+            this.valueUrl = reader.result;
+            this.$message({
+              message: "视频上传成功，请等待",
+              type: "success",
+            });
+            this.outUrl = ''
+            this.loading=require("../assets/loading.gif")
+            // console.log(reader.result);
+           sentPuppet(formData)
+              .then((response) => {
+                // 上传成功后的操作
+                // console.log('视频上传成功','data:video/mp4;base64,'+response.data.base64_video);
+                
+                this.outUrl = "data:video/mp4;base64," + response.data.base64_video;
+                // console.log(this.outUrl);
+              })
+              .catch((error) => {
+                // 上传失败后的操作
+                console.error("表情迁移失败", error);
+                this.$message.error("表情迁移失败");
+              });
+          };
+          reader.readAsDataURL(file);
+        }
       }
     },
-    GetGeneratedVideo(){
-      setTimeout(() => {
-        this.GeneratedVideo = true;
-      }, 3000); // 延迟3秒（3000毫秒）后执行
-    }
+    // GetGeneratedVideo(){
+    //   setTimeout(() => {
+    //     this.GeneratedVideo = true;
+    //   }, 3000); // 延迟3秒（3000毫秒）后执行
+    // }
   },
 }
 </script>
@@ -107,7 +141,7 @@ export default {
   border-radius: 5%;
 }
 #puppet-v {
-  background: url("../assets/puppet/bg.jpg");
+  background: url("@/assets/puppet/bg.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;

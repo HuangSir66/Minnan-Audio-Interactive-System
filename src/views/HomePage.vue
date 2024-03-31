@@ -1,133 +1,135 @@
 <template>
-  <div>
-    <div class="bottomm"></div>
-    <div class="Swiper">
-      <div class="Swiper-content">
-        <div class="Swiper-item" v-for="(item, index) in imageUrl" :key="index">
-          <img :src="item" alt="" />
-        </div>
-      </div>
+  <div id="build">
+    <div class="carousel-container">
+      <ul id="banner">
+        <li v-for="(image, index) in images" :key="index"
+            @mouseenter="stopAutoSlide" @mouseleave="startAutoSlide"
+            :style="{ height: image.height + 'px',left: image.left, opacity: image.opacity, zIndex: image.zIndex,position: 'absolute', top:0,bottom:0,margin:'auto',}">
+          <router-link :to="image.to">
+            <img :src="image.src" alt="" :style="{  width: '600px', height: image.height + 'px', borderRadius:'1%', boxShadow: '5px 15px 15px #888888'}">
+          </router-link>
+        </li>
+      </ul>
+      <img src="@/assets/home/preImg.png" alt="Previous" @click="getPre" class="control-img pre-img">
+      <img src="@/assets/home/nexImg.png" alt="Next" @click="getNext" class="control-img nex-img">
     </div>
   </div>
 </template>
 
 <script>
-import { Swiper } from "@/swiper/Swiper";
 export default {
-  name: "Swiper",
+  name: 'HomePage',
   data() {
     return {
-      imageUrl: [
-        require("../assets/0.jpg"),
-        require("../assets/1.jpg"),
-        require("../assets/2.jpg"),
-        require("../assets/3.jpg"),
-        require("../assets/4.jpg"),
-        require("../assets/5.jpg"),
-
+      images: [
+        { src: require("@/assets/home/cutPaper.jpg"), to: "/cutpaper", left: "200px", opacity: 1, zIndex:4, height: 300 },
+        { src: require("@/assets/home/moveTransfer.jpg"), to: "/movetransfer", left: "300px", opacity: 1, zIndex:3, height: 250 },
+        { src: require("@/assets/home/oldImage.jpg"), to: "/oldimgrepair", left: "400px", opacity: 1, zIndex:2, height: 200 },
+        { src: require("@/assets/home/clothTransfer.jpg"), to: "/clothingtransfer", left: "120px", opacity: 1, zIndex:3, height: 250 },
+        { src: require("@/assets/home/puppetTransfer.jpg"), to: "/puppettransfer", left: "40px", opacity: 1, zIndex:2, height: 200 },
+        { src: require("@/assets/home/musicTransfer.jpg"), to: "/musictransfer", left: "0px", opacity: 1, zIndex:1, height: 180 },
       ],
-      classList: ["one", "two", "three", "four", "five"],
-    };
+      timer: null,
+      currentIndex: 0,
+    }
+  },
+  mounted() {
+    this.startAutoSlide();
   },
   methods: {
-    swiper() {
-      new Swiper({
-        classList: this.classList,
-        SwiperContent: ".swiper-content",
-      });
+    startAutoSlide() {
+      this.timer = setInterval(this.getNext, 2000);
     },
-  },
-
-  mounted() {
-    this.swiper();
-  },
+    stopAutoSlide() {
+      clearInterval(this.timer);
+    },
+    getNext() {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.adjustImagesForDisplay();
+    },
+    getPre() {
+      this.currentIndex = this.currentIndex - 1 < 0 ? this.images.length - 1 : this.currentIndex - 1;
+      this.adjustImagesForDisplay();
+    },
+    adjustImagesForDisplay() {
+      for (let i = 0; i < this.images.length; i++) {
+        if (i === this.currentIndex) {
+          this.images[i].left = "200px";
+          this.images[i].opacity = 1;
+          this.images[i].zIndex = 4;
+          this.images[i].height = 300
+        } else if (i === (this.currentIndex + 1) % this.images.length || (this.currentIndex === this.images.length - 1 && i === 0)) {
+          this.images[i].left = "300px";
+          this.images[i].opacity = 1;
+          this.images[i].zIndex = 3;
+          this.images[i].height = 250
+        } else if (i === (this.currentIndex - 1 + this.images.length) % this.images.length || (this.currentIndex === 0 && i === this.images.length - 1)) {
+          this.images[i].left = "120px";
+          this.images[i].opacity = 1;
+          this.images[i].zIndex = 3;
+          this.images[i].height = 250
+        } else if (i === (this.currentIndex + 2) % this.images.length || (this.currentIndex === this.images.length - 2 && i === 0) || (this.currentIndex === this.images.length - 1 && i === 1)) {
+          this.images[i].left = "400px";
+          this.images[i].opacity = 1;
+          this.images[i].zIndex = 2;
+          this.images[i].height = 200
+        } else if (i === (this.currentIndex - 2 + this.images.length) % this.images.length || (this.currentIndex === 0 && i === this.images.length - 2) || (this.currentIndex === 1 && i === this.images.length - 1)) {
+          this.images[i].left = "40px";
+          this.images[i].opacity = 1;
+          this.images[i].zIndex = 2;
+          this.images[i].height = 200
+        }else {
+          this.images[i].left = "0px";
+          this.images[i].opacity = 1;
+          this.images[i].zIndex = 1;
+          this.images[i].height = 180
+        }
+      }
+    },
+  }
 };
 </script>
 
-
 <style scoped>
-.titelText {
-  position: absolute;
-  font-size: 50px;
+#build{
+  background: url("../assets/home/background.jpg");
   width: 100%;
-  top: 20px;
-  text-align: center;
-  font-family: "YouYuan";
-  letter-spacing: 8px;
-  color:white;
-  text-shadow: 0 0 0px #fff, 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ffea,
-  0 0 20px #00ffd5, 0 0 30px #00eeff, 0 0 40px #00ffff, 0 0 50px #00fff2;
-}
-.bottomm{
-  height:150px;
-  width:100%;
-  position:absolute;
-  bottom:0;
-
-  left:0;
-  right:0;
-  background-size:100%;
-  background-repeat:no-repeat;
-  border-top:30px solid rgba(20, 20, 20, 0.5);
-  box-shadow: 0 0 10px rgb(255, 243, 187);
-}
-.Swiper {
-  height: 250px;
-  width: 100%;
-  position: relative;
-  margin: 150px auto;
-}
-
-.Swiper-content {
   height: 100%;
-  width: 50%;
+  background-size: 100% 100%;
+}
+.carousel-container {
   position: relative;
-  margin: 0 auto;
-  left:15px
-
+  width: 1000px;
+  height: 400px;
+  margin: auto;
+  overflow: hidden;
 }
 
-.Swiper-content div {
+.control-img {
   position: absolute;
-  height: 150px;
-  width: 120px;
-  margin-top: 50px;
-  transition: all 0.6s;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 100;
 }
-.Swiper-content img {
-  height: 100%;
-  width: 100%;
+.control-img:hover{
+  cursor: pointer;
 }
-.one {
-  z-index: 1;
-  transform: scale(0.8);
-  left: 75px;
-  box-shadow: -3px 4px 10px 1px rgba(0, 0, 0, 0.2);
-}
-.two {
-  z-index: 2;
-  transform: scale(0.9);
-  left: 175px;
-  box-shadow: -3px 4px 10px 1px rgba(0, 0, 0, 0.2);
+.pre-img {
+  left: 0;
 }
 
-.three {
-  z-index: 9;
-  transform: scale(1);
-  left: 275px;
-  box-shadow: -3px 4px 10px 1px rgba(0, 0, 0, 0.2);
-}
-.four {
-  z-index: 2;
-  transform: scale(0.9);
-  left: 375px;
-  box-shadow: 3px 4px 10px 1px rgba(0, 0, 0, 0.2);
+.nex-img {
+  right: 0;
 }
 
-.five {
-  z-index: 1;
-  transform: scale(0.8);
-  left: 475px;
-  box-shadow: 3px 4px 10px 1px rgba(0, 0, 0, 0.2);
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  position: absolute;
+  transition-duration: 0.4s;
 }
 </style>

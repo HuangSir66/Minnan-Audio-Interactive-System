@@ -2,18 +2,20 @@
 <div class="container" id='background-old-img'>
 	<div class="imgall">
 		<div class="div-bigImg" @click="toGetImg">
-				<img class="Imgbig1" :src=valueUrl v-if="valueUrl">
-				<img class="Imgbig2" :src=valueUrl v-if="valueUrl">
-				<img
-						class="image-book"
-						src="@/assets/book.png"
-						alt="背景书"
-				>
+		<img class="Imgbig1" :src=valueUrl v-if="valueUrl">
+		<div class="smallText" v-else>点击上传照片</div>
+		<img class="Imgbig2" :src=outUrl v-if="outUrl">
+		<img
+				class="image-book"
+				src="@/assets/book.png"
+				alt="背景书"
+		>
 		</div>
 		<img
 			class="image-old-button"
-			src="@/assets/oldImgbutton.png"
-			alt="按钮"
+			src="@/assets/download.png"
+			alt="下载按钮"
+			@click="downloadImage"
 		>
 	</div>
 </div>
@@ -21,11 +23,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+import {sentBaseOld} from '@/api/index'
 	let inputElement = null
 	export default {
 		data() {
 			return {
-				valueUrl: ''
+				valueUrl: '',
+				outUrl:'',
+				isvideo:false
 			}
 		},
 		methods: {
@@ -63,15 +69,53 @@
 						const that = this;
 						const reader = new FileReader(); // 创建读取文件对象
 						reader.readAsDataURL(el.target.files[0]); // 发起异步请求，读取文件
+						this.$message({
+							message: '图片上传成功',
+							type: 'success'
+						});
+						this.outUrl=require("../assets/loading.gif")
 						reader.onload = function() { // 文件读取完成后
 							// 读取完成后，将结果赋值给img的src
 							that.valueUrl = this.result;
-							console.log(this.result);
-							// 数据传到后台
-						//const formData = new FormData()
-						//formData.append('file', files); // 可以传到后台的数据
+							const img = new Image();
+							img.src = reader.result;
+							img.onload = () => {
+								// console.log(this.result);
+								sentBaseOld({ 
+									image: reader.result.split(',')[1],
+									})
+									.then(response => {
+										// 处理后的base64编码图片数据
+										this.isvideo=true
+										const stylizedImage = response.data.stylized_image;
+										// 更新显示处理后的图片
+										that.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
+									})
+									.catch(error => {
+										this.loading=false;
+										console.error('Error uploading image: ', error);
+									});
+							};
+							
 						};
 					}
+				}
+			},
+			downloadImage(event){
+				if (this.isvideo) {
+                    const link = document.createElement('a');
+                    link.href = this.outUrl;
+                    link.download = 'stylized_image.jpg'; // 设置下载后的文件名
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else if(this.valueUrl=='') {
+                    this.$message.error('请先上传图片');
+            	} else{
+					this.$message.error('系统加载中');
+                    // 如果图片被禁用，阻止点击事件的默认行为  
+                    event.preventDefault();  
+                    event.stopPropagation();  
 				}
 			}
 
@@ -148,11 +192,22 @@
 	height: 100px;
 	cursor: pointer;
 }
+.image-old-button:hover{
+        transform: scale(1.1); /* 放大效果 */
+}
 #background-old-img{
 	background: url("../assets/oldImgBackground.jpg");
 	width: 100%;
 	height: 100%;
 	background-size: 100% 100%;
+}
+.smallText{
+  display: block;
+  margin-left: 82px;
+  margin-top: 129px;
+  z-index: 999;
+  color: #b1abab;
+  position: absolute;
 }
 </style>
 

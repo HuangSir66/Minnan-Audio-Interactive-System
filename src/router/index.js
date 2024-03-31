@@ -10,6 +10,8 @@ import PuppetTransfer from '../views/PuppetTransfer.vue'
 import HomePage from '../views/HomePage.vue'
 
 
+
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -52,13 +54,14 @@ const routes = [
         path:"/musictransfer",
         name:'musictransfer',
         component:MusicTransfer
-      }
+      },
     ]
   },
   
 ]
 
 const router = new VueRouter({
+  mode: 'hash',
   routes
 })
 

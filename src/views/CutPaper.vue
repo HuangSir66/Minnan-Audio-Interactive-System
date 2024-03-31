@@ -3,6 +3,7 @@
         <div class="qianImg">
             <div class="bigImg-div" @click="toGetImg">
                 <img class="bigImg" :src=valueUrl v-if="valueUrl">
+                <div class="smallText2" v-else>点击上传照片</div>
                 <img
                     class="image-circle"
                     src="@/assets/liubianxing.png"
@@ -21,7 +22,7 @@
                     alt="闽南剪纸迁移"
                 >
             </div>
-            <img src="@/assets/qianyihou.png" class="tag" @click="downloadImage">
+            <img src="@/assets/qianyihou.png" class="tag" @click="downloadImage" >
         </div>
 	</div>
 
@@ -36,7 +37,7 @@ import {sentBasePic} from "../api/papercut";
             return {
                 valueUrl: '',
                 outUrl:'',
-                loading: false  // 控制加载动画显示与隐藏
+                isimg:false
             }
         },
         methods: {
@@ -49,8 +50,11 @@ import {sentBasePic} from "../api/papercut";
 
                     if (window.addEventListener) {
                         inputElement.addEventListener('change', this.uploadFile, false)
+                        
                     } else {
                         inputElement.attachEvent('onchange', this.uploadFile)
+                        
+        
                     }
 
                     document.body.appendChild(inputElement)
@@ -71,19 +75,24 @@ import {sentBasePic} from "../api/papercut";
                         // this.$dialog.toast({ mes: '请选择图片文件' });
                         this.$message.error('请选择图片文件');
                     } else {
-                        this.loading = true;
                         const that = this;
                         const reader = new FileReader(); // 创建读取文件对象
                         reader.readAsDataURL(el.target.files[0]); // 发起异步请求，读取文件
+                        this.$message({
+                                message: '图片上传成功',
+                                type: 'success'
+                            });
+                        this.outUrl=require("../assets/loading.gif")
                         reader.onload = function() { // 文件读取完成后
                             // 读取完成后，将结果赋值给img的src
                             that.valueUrl = this.result;
                             console.log(this.result,"result");
+                            
                             // 使用axios发送POST请求到后端
                             sentBasePic({ image: reader.result.split(',')[1] })
                                 .then(response => {
                                     // 处理后的base64编码图片数据
-                                    this.loading=false;
+                                    this.isimg=false;
                                     const stylizedImage = response.data.stylized_image;
                                     // 更新显示处理后的图片
                                     that.outUrl = 'data:image/jpeg;base64,' + stylizedImage;
@@ -91,22 +100,26 @@ import {sentBasePic} from "../api/papercut";
                                 .catch(error => {
                                     this.loading=false;
                                     console.error('Error uploading image: ', error);
+                                    this.$message.error('风格迁移失败');
                                 });
                         };
                     }
                 }
             },
-            downloadImage() {
-            if (this.outUrl) {
-                const link = document.createElement('a');
-                link.href = this.outUrl;
-                link.download = 'stylized_image.jpg'; // 设置下载后的文件名
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } else {
-                this.$message.error('请先上传图片');
-        }
+            downloadImage(event) {
+                if (this.isimg) {
+                    const link = document.createElement('a');
+                    link.href = this.outUrl;
+                    link.download = 'stylized_image.jpg'; // 设置下载后的文件名
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    this.$message.error('请先上传图片');
+                    // 如果图片被禁用，阻止点击事件的默认行为  
+                    event.preventDefault();  
+                    event.stopPropagation();  
+            }
     },
 
         },
@@ -126,7 +139,7 @@ import {sentBasePic} from "../api/papercut";
 </script>
 
 
-<style scoped>
+<style >
 	.alert-box-item {
 		overflow: hidden;
         display:flex;
@@ -141,6 +154,7 @@ import {sentBasePic} from "../api/papercut";
 		overflow: hidden;
 		/* border: 10px rgb(208, 56, 56) double; */
         cursor: pointer;
+        
         
 	}
 
@@ -163,6 +177,7 @@ import {sentBasePic} from "../api/papercut";
         margin-top: 49px;
         z-index: 999;
         position: absolute;
+        transition: filter 0.3s;
 	}
     #building-v {
         background: url("../assets/paperTranBackground.jpg");
@@ -195,6 +210,13 @@ import {sentBasePic} from "../api/papercut";
         align-items: center;
         margin-right: 250px;
     }
-   
+   .smallText2{
+        display: block;
+        margin-left: 138px;
+        margin-top: 179px;
+        z-index: 999;
+        color: #8b8989;
+        position: absolute;
+    }
 </style>
 

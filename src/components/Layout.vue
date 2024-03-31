@@ -7,7 +7,7 @@
           to="/"
           style="color: inherit; text-decoration: none;"
         >
-        <img
+          <img
             style=" width: 170px; height: auto;"
             src="@/assets/home.png"
             alt="首页"
@@ -29,7 +29,7 @@
           to="/oldimgrepair"
           style="color: inherit; text-decoration: none;"
         >
-        <img
+          <img
             class="item-image"
             src="@/assets/oldPhoto.png"
             alt="闽南老照片修复"
@@ -40,7 +40,7 @@
           to="/musictransfer"
           style="color: inherit; text-decoration: none;"
         >
-        <img
+          <img
             class="item-image"
             src="@/assets/musicTransfer.png"
             alt="闽南音乐风格迁移"
@@ -51,7 +51,7 @@
           to="/movetransfer"
           style="color: inherit; text-decoration: none;"
         >
-        <img
+          <img
             class="item-image"
             src="@/assets/moveTransfer.png"
             alt="闽南剪纸动作迁移"
@@ -62,7 +62,7 @@
           to="/puppettransfer"
           style="color: inherit; text-decoration: none;"
         >
-        <img
+          <img
             class="item-image"
             src="@/assets/puppetTransfer.png"
             alt="木偶头表情迁移"
@@ -73,9 +73,9 @@
           to="/clothingtransfer"
           style="color: inherit; text-decoration: none;"
         >
-        <img
+          <img
             class="item-image"
-            src="@/assets/operaTransfer.png"
+            src="@/assets/dynasty.png"
             alt="朝代服妆迁移"
           >
         </router-link>
@@ -83,15 +83,53 @@
     </el-header>
     <el-main
       class="main"
-      id="building"
+      :style="{ background: 'url(' + backgroundSrc + ')' ,width: '100%',height: '100%',backgroundSize: '100% 100%'}"
     >
-      <router-view />
+      <transition name="scale" mode="out-in">
+        <!-- <div :key="backgroundSrc" class="background" :style="{ backgroundImage: 'url(' + backgroundSrc + ')' }"></div> -->
+      
+        <router-view />
+      </transition>
     </el-main>
   </el-container>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      backgroundSrc: ''
+    };
+  },
+  watch: {
+    // 监听路由变化，根据路由更新背景图片路径
+    $route(to, from) {
+      switch (to.path) {
+        case '/cutpaper':
+          this.backgroundSrc = require("@/assets/home/cutPaper.jpg");
+          break;
+        case '/movetransfer':
+          this.backgroundSrc = require("@/assets/home/moveTransfer.jpg");
+          break;
+        case '/oldimgrepair':
+          this.backgroundSrc = require("@/assets/home/oldImage.jpg");
+          break;
+        case '/clothingtransfer':
+          this.backgroundSrc = require("@/assets/home/clothTransfer.jpg");
+          break;
+        case '/puppettransfer':
+          this.backgroundSrc = require("@/assets/home/puppetTransfer.jpg");
+          break;
+        case '/musictransfer':
+          this.backgroundSrc = require("@/assets/home/musicTransfer.jpg");
+          break;
+        default:
+          this.backgroundSrc = require("@/assets/home/background.jpg");
+          break;
+      }
+    }
+  }
+};
 </script>
 
 <style>
@@ -119,7 +157,6 @@ export default {};
 }
 .nav-item:hover {
   transform: scale(1.1); /* 放大效果 */
-
 }
 .main {
   background-color: beige;
@@ -132,4 +169,16 @@ export default {};
   width: 150px; /* 设置图片的宽度 */
   height: auto; /* 设置图片的高度为自动，以保持宽高比 */
 }
+
+
+.scale-enter-active,
+.scale-leave-active {
+  transition: all 0.5s ease;
+}
+.scale-enter-from,
+.scale-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
 </style>
