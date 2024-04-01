@@ -23,7 +23,7 @@
         >
         <img
           class="item-music"
-          style="width:180px"
+          style="width:12vw"
           src="@/assets/piano.png"
           alt="琴"
         >
@@ -104,7 +104,7 @@ export default {
         this.$message.error('加载中，请等待');
         return
       }
-      
+
 
 
       // 创建一个 FormData 对象，用于将文件上传到后端
@@ -131,7 +131,7 @@ export default {
           message: '音乐迁移成功',
           type: 'success'
         });
-        // console.log('Response data type:', typeof response.data); 
+        // console.log('Response data type:', typeof response.data);
         // console.log(response)
         this.isMusic=true;
         // 创建一个 Blob 对象，并使用 URL.createObjectURL 方法创建一个临时 URL
@@ -179,9 +179,9 @@ export default {
   background-size: 100% 100%;
 }
 .circle-div{
-  margin-top:20px ;
-  width: 500px;
-  height: auto;
+  margin-top:2.67vh ;
+  width: 33.6vw;
+  height: 35.5vh;
   cursor: pointer;
 }
 .chose-music{
@@ -189,20 +189,20 @@ export default {
   justify-content: space-around;
 }
 .item-button{
-  width: 150px;
-  height: auto;
+  width: 10.08vw;
+  height: 6.13vh;
   cursor: pointer;
 }
 .item-button:hover{
   transform: scale(1.1); /* 放大效果 */
 }
 .item-music{
-  width: 100px;
-  height: 200px;
+  width: 6.7vw;
+  height: 26.6vh;
   cursor: pointer;
-  margin-right: 15px;
-  margin-bottom: 35px;
-  
+  margin-right: 1vw;
+  margin-bottom: 4.6vh;
+
 }
 .item-music:hover {
   transform: scale(1.1); /* 放大效果 */

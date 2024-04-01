@@ -4,9 +4,9 @@
       <ul id="banner">
         <li v-for="(image, index) in images" :key="index"
             @mouseenter="stopAutoSlide" @mouseleave="startAutoSlide"
-            :style="{ height: image.height + 'px',left: image.left, opacity: image.opacity, zIndex: image.zIndex,position: 'absolute', top:0,bottom:0,margin:'auto',}">
+            :style="{ height: image.height,left: image.left, opacity: image.opacity, zIndex: image.zIndex,position: 'absolute', top:0,bottom:0,margin:'auto',}">
           <router-link :to="image.to">
-            <img :src="image.src" alt="" :style="{  width: '600px', height: image.height + 'px', borderRadius:'1%', boxShadow: '5px 15px 15px #888888'}">
+            <img :src="image.src" alt="" :style="{  width: '40.32vw', height: image.height, borderRadius:'1%', boxShadow: '5px 15px 15px #888888'}">
           </router-link>
         </li>
       </ul>
@@ -22,12 +22,12 @@ export default {
   data() {
     return {
       images: [
-        { src: require("@/assets/home/cutPaper.jpg"), to: "/cutpaper", left: "200px", opacity: 1, zIndex:4, height: 300 },
-        { src: require("@/assets/home/moveTransfer.jpg"), to: "/movetransfer", left: "300px", opacity: 1, zIndex:3, height: 250 },
-        { src: require("@/assets/home/oldImage.jpg"), to: "/oldimgrepair", left: "400px", opacity: 1, zIndex:2, height: 200 },
-        { src: require("@/assets/home/clothTransfer.jpg"), to: "/clothingtransfer", left: "120px", opacity: 1, zIndex:3, height: 250 },
-        { src: require("@/assets/home/puppetTransfer.jpg"), to: "/puppettransfer", left: "40px", opacity: 1, zIndex:2, height: 200 },
-        { src: require("@/assets/home/musicTransfer.jpg"), to: "/musictransfer", left: "0px", opacity: 1, zIndex:1, height: 180 },
+        { src: require("@/assets/home/cutPaper.jpg"), to: "/cutpaper", left: "13.44vw", opacity: 1, zIndex:4, height: '40vh' },
+        { src: require("@/assets/home/moveTransfer.jpg"), to: "/movetransfer", left: "20.16vw", opacity: 1, zIndex:3, height: '33.33vh' },
+        { src: require("@/assets/home/oldImage.jpg"), to: "/oldimgrepair", left: "26.88vw", opacity: 1, zIndex:2, height: '26.67vh' },
+        { src: require("@/assets/home/clothTransfer.jpg"), to: "/clothingtransfer", left: "8.06vw", opacity: 1, zIndex:3, height: '33.33vh' },
+        { src: require("@/assets/home/puppetTransfer.jpg"), to: "/puppettransfer", left: "2.69vw", opacity: 1, zIndex:2, height: '26.67vh' },
+        { src: require("@/assets/home/musicTransfer.jpg"), to: "/musictransfer", left: "0px", opacity: 1, zIndex:1, height: '24vh' },
       ],
       timer: null,
       currentIndex: 0,
@@ -54,35 +54,35 @@ export default {
     adjustImagesForDisplay() {
       for (let i = 0; i < this.images.length; i++) {
         if (i === this.currentIndex) {
-          this.images[i].left = "200px";
+          this.images[i].left = "13.44vw";
           this.images[i].opacity = 1;
           this.images[i].zIndex = 4;
-          this.images[i].height = 300
+          this.images[i].height = '40vh'
         } else if (i === (this.currentIndex + 1) % this.images.length || (this.currentIndex === this.images.length - 1 && i === 0)) {
-          this.images[i].left = "300px";
+          this.images[i].left = "20.16vw";
           this.images[i].opacity = 1;
           this.images[i].zIndex = 3;
-          this.images[i].height = 250
+          this.images[i].height = '33.33vh'
         } else if (i === (this.currentIndex - 1 + this.images.length) % this.images.length || (this.currentIndex === 0 && i === this.images.length - 1)) {
-          this.images[i].left = "120px";
+          this.images[i].left = "8.06vw";
           this.images[i].opacity = 1;
           this.images[i].zIndex = 3;
-          this.images[i].height = 250
+          this.images[i].height = '33.33vh'
         } else if (i === (this.currentIndex + 2) % this.images.length || (this.currentIndex === this.images.length - 2 && i === 0) || (this.currentIndex === this.images.length - 1 && i === 1)) {
-          this.images[i].left = "400px";
+          this.images[i].left = "26.88vw";
           this.images[i].opacity = 1;
           this.images[i].zIndex = 2;
-          this.images[i].height = 200
+          this.images[i].height = '26.67vh'
         } else if (i === (this.currentIndex - 2 + this.images.length) % this.images.length || (this.currentIndex === 0 && i === this.images.length - 2) || (this.currentIndex === 1 && i === this.images.length - 1)) {
-          this.images[i].left = "40px";
+          this.images[i].left = "2.69vw";
           this.images[i].opacity = 1;
           this.images[i].zIndex = 2;
-          this.images[i].height = 200
+          this.images[i].height = '26.67vh'
         }else {
           this.images[i].left = "0px";
           this.images[i].opacity = 1;
           this.images[i].zIndex = 1;
-          this.images[i].height = 180
+          this.images[i].height = '24vh'
         }
       }
     },
@@ -99,8 +99,8 @@ export default {
 }
 .carousel-container {
   position: relative;
-  width: 1000px;
-  height: 400px;
+  width: 67.2vw;
+  height: 53.3vh;
   margin: auto;
   overflow: hidden;
 }

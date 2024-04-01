@@ -82,7 +82,7 @@ import {sentBaseOld} from '@/api/index'
 							img.src = reader.result;
 							img.onload = () => {
 								// console.log(this.result);
-								sentBaseOld({ 
+								sentBaseOld({
 									image: reader.result.split(',')[1],
 									})
 									.then(response => {
@@ -97,7 +97,7 @@ import {sentBaseOld} from '@/api/index'
 										console.error('Error uploading image: ', error);
 									});
 							};
-							
+
 						};
 					}
 				}
@@ -114,7 +114,7 @@ import {sentBaseOld} from '@/api/index'
                     this.$message.error('请先上传图片');
             	} else if(this.isvideo==false){
 					this.$message.error('系统加载中');
-                    // 如果图片被禁用，阻止点击事件的默认行为  
+                    // 如果图片被禁用，阻止点击事件的默认行为
 				}
 			}
 
@@ -147,11 +147,11 @@ import {sentBaseOld} from '@/api/index'
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-end;
-	margin-top: 30px;
+	margin-top: 4vh;
 }
 .div-bigImg {
-	width: 500px;
-	height: 300px;
+	width: 33.6vw;
+	height: 40vh;
 	border-radius: 0%;
 	overflow: hidden;
 	/* border: 1px solid #ddd; */
@@ -162,33 +162,33 @@ import {sentBaseOld} from '@/api/index'
 
 .Imgbig1 {
 	display: block;
-	width: 216px;
-	height: 249px;
+	width: 14.5vw;
+	height: 33.2vh;
 	border-radius: 5%;
-	margin-left: 27px;
-	margin-top: 21px;
+	margin-left: 1.8vw;
+	margin-top: 2.8vh;
 	position: absolute;
 	z-index: 999;
-	
-	
+
+
 }
 .Imgbig2 {
 	display: block;
-	width: 216px;
-	height: 249px;
+	width: 14.5vw;
+	height: 33.2vh;
 	border-radius: 5%;
-	margin-left: 265px;
-	margin-top: 21px;
+	margin-left: 17.8vw;
+	margin-top: 2.8vh;
 	z-index: 999;
 	position: absolute;
 }
 .image-book{
-	width: 500px;
-	height: auto;
+	width: 33.6vw;
+	height: 40vh;
 }
 .image-old-button{
-	width: 200px;
-	height: 100px;
+	width: 13.4vw;
+	height: 13.3vh;
 	cursor: pointer;
 }
 .image-old-button:hover{
@@ -202,11 +202,12 @@ import {sentBaseOld} from '@/api/index'
 }
 .smallText{
   display: block;
-  margin-left: 82px;
-  margin-top: 129px;
+  margin-left: 5.5vw;
+  margin-top: 17.2vh;
   z-index: 999;
   color: #b1abab;
   position: absolute;
+  font-size: 1vw;
 }
 </style>
 

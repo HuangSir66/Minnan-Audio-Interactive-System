@@ -85,9 +85,9 @@ export default {
           reader.readAsDataURL(files);
           reader.onload = () => {
             this.valueUrl = reader.result;
-            
+
           };
-          
+
         }
       }
     },
@@ -104,7 +104,7 @@ export default {
                 type: 'success'
           });
          this.outUrl=require("../assets/loading.gif")
-         sentClothImg({ 
+         sentClothImg({
           image: this.valueUrl.split(',')[1],
           style: this.style
         })
@@ -118,8 +118,8 @@ export default {
           console.error('Error uploading image: ', error);
         });
       }
-      
-          
+
+
     },
     selectDynasty(index,dynasties) {
       this.selectedDynasty = index;
@@ -173,13 +173,13 @@ export default {
   align-items: center;
 }
 .dynastyClothing{
-  margin-top: 10px;
-  width: 130px;
-  height: 140px;
+  margin-top: 1.3vh;
+  width: 8.74vw;
+  height: 18.67vh;
 }
 .dynastyButton{
-  margin-top: 10px;
-  width: 120px;
+  margin-top: 1.3vh;
+  width: 8.06vw;
   height: auto;
   cursor: pointer;
 }
@@ -195,40 +195,40 @@ export default {
 }
 
 .clothingImg-div {
-  width:  320px;
-  height:  500px;
+  width:  21.5vw;
+  height:  66.67vh;
   overflow: hidden;
   cursor: pointer;
 
 }
 .smallImg-div {
-  width:  380px;
-  height:  365px;
+  width:  25.5vw;
+  height:  48.67vh;
   overflow: hidden;
   cursor: pointer;
 
 }
 .smallImg {
   display: block;
-  width: 260px;
-  height: 300px;
-  margin-left: 56px;
-  margin-top: 36px;
+  width: 17.5vw;
+  height: 40vh;
+  margin-left: 3.76vw;
+  margin-top: 4.8vh;
   z-index: 999;
   position: absolute;
   border-radius: 10%;
 }
 .smallimage-circle{
-  width: 380px;
-  height: 365px;
+  width: 25.5vw;
+  height: 48.67vh;
 }
 
 .clothingImg {
   display: block;
-  width: 245px;
-  height: 371px;
-  margin-left: 48px;
-  margin-top: 61px;
+  width: 16.5vw;
+  height: 49.467vh;
+  margin-left: 3.2vw;
+  margin-top: 8.13vh;
   z-index: 999;
   position: absolute;
   border-radius: 5%;
@@ -240,14 +240,14 @@ export default {
   background-size: 100% 100%;
 }
 .clothingimage-circle{
-  width: 350px;
-  height: 485px;
+  width: 23.5vw;
+  height: 64.67vh;
 }
 .clothingTag{
-  width: 200px;
-  height: 61px;
+  width: 13.4vw;
+  height: 8.13vh;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 0.67vw;
 }
 .clothingTag:hover {
   transform: scale(1.1); /* 放大效果 */
@@ -257,21 +257,21 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 20px;
-  margin-right: 0px;
+  margin-top: 2.67vh;
+  margin-right: 0;
 }
 .buildImg{
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-right: 380px;
-  margin-top: 10px;
+  margin-right: 25.5vw;
+  margin-top: 1.3vh;
 }
 .smallText{
   display: block;
-  margin-left: 136px;
-  margin-top: 156px;
+  margin-left: 9.14vw;
+  margin-top: 20.8vh;
   z-index: 999;
   color: #b1abab;
   position: absolute;

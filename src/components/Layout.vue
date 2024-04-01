@@ -8,7 +8,7 @@
           style="color: inherit; text-decoration: none;"
         >
           <img
-            style=" width: 170px; height: auto;"
+            style=" width: 11.42vw; height: 6.93vh;"
             src="@/assets/home.png"
             alt="首页"
           >
@@ -87,7 +87,7 @@
     >
       <transition name="scale" mode="out-in">
         <!-- <div :key="backgroundSrc" class="background" :style="{ backgroundImage: 'url(' + backgroundSrc + ')' }"></div> -->
-      
+
         <router-view />
       </transition>
     </el-main>
@@ -138,7 +138,7 @@ export default {
 }
 .header {
   background-color: antiquewhite;
-  height: 10vh;
+  height: 8.5vh!important;
   border-top: 2px rgb(208, 56, 56) solid;
   border-left: 2px rgb(208, 56, 56) solid;
   border-right: 2px rgb(208, 56, 56) solid;
@@ -150,7 +150,7 @@ export default {
   height: 100%;
 }
 .nav-item {
-  padding: 10px; /* 调整导航键之间的间距 */
+  padding: 1.3vh 0.67vw; /* 调整导航键之间的间距 */
   transition: all 0.3s ease; /* 添加过渡效果 */
   color: inherit; /* 继承父元素的字体颜色 */
   text-decoration: none; /* 取消下划线 */
@@ -160,14 +160,14 @@ export default {
 }
 .main {
   background-color: beige;
-  height: 90vh;
+  height: 91.5vh;
   padding: 0 !important;
   /* border: 2px rgb(208, 56, 56) solid; */
 }
 
 .item-image {
-  width: 150px; /* 设置图片的宽度 */
-  height: auto; /* 设置图片的高度为自动，以保持宽高比 */
+  width: 10.08vw; /* 设置图片的宽度 */
+  height: 7.6vh; /* 设置图片的高度为自动，以保持宽高比 */
 }
 
 

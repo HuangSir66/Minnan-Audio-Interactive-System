@@ -145,7 +145,7 @@ export default {
 }
 
 .alert-box-item-v {
-  margin-top: 20px;
+  margin-top: 2.6vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -154,11 +154,11 @@ export default {
 }
 
 .bigImg-div-v {
-  width: 292px;
-  height: 209px;
+  width: 19.6vw;
+  height: 27.9vh;
   border-radius: 0%;
-  margin-left: 5px;
-  margin-top: 96px;
+  margin-left: 0.33vw;
+  margin-top: 12.8vh;
   overflow: hidden;
   position: absolute;
   z-index: 999;
@@ -167,17 +167,17 @@ export default {
 
 .bigImg-v {
   display: block;
-  width: 349px;
-  height: 250px;
-  margin: 0px;
+  width: 23.45vw;
+  height: 33.3vh;
+  margin: 0;
 }
 .image-yichuhaoxi {
-  width: 400px;
-  height: auto;
+  width: 26.88vw;
+  height: 42.9vh;
 }
 .image-button{
-  width: 200px;
-  height: auto;
+  width: 13.44vw;
+  height: 8.27vh;
   cursor: pointer;
 }
 .image-button:hover{
@@ -185,8 +185,8 @@ export default {
 }
 .smallText1{
   display: block;
-  margin-left: 96px;
-  margin-top: 83px;
+  margin-left: 6.45vw;
+  margin-top: 11vh;
   z-index: 999;
   color: #b1abab;
   position: absolute;

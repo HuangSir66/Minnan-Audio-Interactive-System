@@ -90,7 +90,7 @@ export default {
               .then((response) => {
                 // 上传成功后的操作
                 // console.log('视频上传成功','data:video/mp4;base64,'+response.data.base64_video);
-                
+
                 this.outUrl = "data:video/mp4;base64," + response.data.base64_video;
                 // console.log(this.outUrl);
               })
@@ -122,8 +122,8 @@ export default {
 }
 
 .puppetImg-div {
-  width:  314px;
-  height:  314px;
+  width:  21.1vw;
+  height:  41.87vh;
   overflow: hidden;
   cursor: pointer;
 
@@ -132,10 +132,10 @@ export default {
 
 .puppetImg {
   display: block;
-  width: 178px;
-  height: 188px;
-  margin-left: 81px;
-  margin-top: 96px;
+  width: 11.96vw;
+  height: 25.067vh;
+  margin-left: 5.44vw;
+  margin-top: 12.8vh;
   z-index: 999;
   position: absolute;
   border-radius: 5%;
@@ -147,15 +147,15 @@ export default {
   background-size: 100% 100%;
 }
 .puppetimage-circle{
-  width: 360px;
-  height: 360px;
+  width: 24.2vw;
+  height: 48vh;
 }
 .puppetTag{
-  width: 200px;
-  height: 62px;
+  width: 13.44vw;
+  height: 8.26vh;
   cursor: pointer;
-  margin-left: 27px;
-  margin-top: 10px;
+  margin-left: 1.8vw;
+  margin-top: 1.33vh;
 }
 .puppetTag:hover {
   transform: scale(1.1); /* 放大效果 */
@@ -165,14 +165,14 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 6.67vh;
 }
 .build{
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 6.67vh;
 }
 
 </style>

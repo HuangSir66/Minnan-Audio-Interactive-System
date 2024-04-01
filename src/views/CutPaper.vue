@@ -36,7 +36,7 @@ import {sentBasePic} from "../api/papercut";
         data() {
             return {
                 valueUrl: require("../assets/example/flower.jpg"),
-				outUrl:require("../assets/example/flowerExample.jpg"),
+				        outUrl:require("../assets/example/flowerExample.jpg"),
                 isimg:false
             }
         },
@@ -50,11 +50,11 @@ import {sentBasePic} from "../api/papercut";
 
                     if (window.addEventListener) {
                         inputElement.addEventListener('change', this.uploadFile, false)
-                        
+
                     } else {
                         inputElement.attachEvent('onchange', this.uploadFile)
-                        
-        
+
+
                     }
 
                     document.body.appendChild(inputElement)
@@ -87,7 +87,7 @@ import {sentBasePic} from "../api/papercut";
                             // 读取完成后，将结果赋值给img的src
                             that.valueUrl = this.result;
                             console.log(this.result,"result");
-                            
+
                             // 使用axios发送POST请求到后端
                             sentBasePic({ image: reader.result.split(',')[1] })
                                 .then(response => {
@@ -116,7 +116,7 @@ import {sentBasePic} from "../api/papercut";
                     document.body.removeChild(link);
                 } else if(this.valueUrl==""){
                     this.$message.error('请先上传图片');
-                    // 如果图片被禁用，阻止点击事件的默认行为  
+                    // 如果图片被禁用，阻止点击事件的默认行为
                 }else{
                     this.$message.error('正在加载中');
                 }
@@ -148,14 +148,14 @@ import {sentBasePic} from "../api/papercut";
 	}
 
 	.bigImg-div {
-		width:  380px;
-		height:  380px;
+		width:  25vw;
+		height:  45vh;
 		border-radius: 100%;
 		overflow: hidden;
 		/* border: 10px rgb(208, 56, 56) double; */
         cursor: pointer;
-        
-        
+
+
 	}
 
     /* .chose-style {
@@ -170,11 +170,11 @@ import {sentBasePic} from "../api/papercut";
 
 	.bigImg {
 		display: block;
-		width: 273px;
-		height: 273px;
+		width: 18vw;
+		height: 34.5vh;
 		border-radius: 100%;
-        margin-left: 52px;
-        margin-top: 49px;
+        margin-left: 3.4vw;
+        margin-top: 6vh;
         z-index: 999;
         position: absolute;
         transition: filter 0.3s;
@@ -186,12 +186,12 @@ import {sentBasePic} from "../api/papercut";
         background-size: 100% 100%;
     }
     .image-circle{
-        width: 380px;
-        height: auto;
+        width: 25vw;
+        height: 45vh;
     }
     .tag{
-        width: 240px;
-        height: 74px;
+        width: 17vw;
+        height: 10vh;
         cursor: pointer;
     }
     .tag:hover {
@@ -208,15 +208,16 @@ import {sentBasePic} from "../api/papercut";
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        margin-right: 250px;
+        margin-right: 17vw;
     }
    .smallText2{
-        display: block;
-        margin-left: 138px;
-        margin-top: 179px;
-        z-index: 999;
-        color: #8b8989;
-        position: absolute;
+     display: block;
+     margin-left: 9vw;
+     margin-top: 24vh;
+     z-index: 998;
+     color: #8b8989;
+     position: absolute;
+     font-size: 1vw;
     }
 </style>
 
