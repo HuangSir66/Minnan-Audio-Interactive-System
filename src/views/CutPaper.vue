@@ -35,8 +35,8 @@ import {sentBasePic} from "../api/papercut";
     export default {
         data() {
             return {
-                valueUrl: '',
-                outUrl:'',
+                valueUrl: require("../assets/example/flower.jpg"),
+				outUrl:require("../assets/example/flowerExample.jpg"),
                 isimg:false
             }
         },
@@ -107,19 +107,19 @@ import {sentBasePic} from "../api/papercut";
                 }
             },
             downloadImage(event) {
-                if (this.isimg) {
+                if (this.outUrl&&this.outUrl!= require("../assets/loading.gif")) {
                     const link = document.createElement('a');
                     link.href = this.outUrl;
                     link.download = 'stylized_image.jpg'; // 设置下载后的文件名
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                } else {
+                } else if(this.valueUrl==""){
                     this.$message.error('请先上传图片');
                     // 如果图片被禁用，阻止点击事件的默认行为  
-                    event.preventDefault();  
-                    event.stopPropagation();  
-            }
+                }else{
+                    this.$message.error('正在加载中');
+                }
     },
 
         },

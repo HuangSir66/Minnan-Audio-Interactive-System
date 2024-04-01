@@ -38,8 +38,8 @@ export default {
   name: "PuppetTransfer",
   data() {
     return {
-      valueUrl: '',
-      outUrl:'',
+      valueUrl: require("../assets/example/te.mp4"),
+				outUrl:require("../assets/example/result.mp4"),
       loading:''
     };
   },

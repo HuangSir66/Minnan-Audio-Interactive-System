@@ -40,8 +40,8 @@ let inputElement = null
 export default {
   data() {
     return {
-      valueUrl: '',
-      outUrl:'',
+      valueUrl: require("../assets/example/zhanmin.jpg"),
+			outUrl:require("../assets/example/zhanminExample.png"),
       isImg: false,  // 控制加载动画显示与隐藏
       style: "",
       selectedDynasty: null,
@@ -129,7 +129,7 @@ export default {
       return this.selectedDynasty === index;
     },
     downloadImage(event) {
-      if (this.isImg) {
+      if (this.outUrl&&this.outUrl!= require("../assets/loading.gif")) {
         const link = document.createElement('a');
         link.href = this.outUrl;
         link.download = 'stylized_image.jpg'; // 设置下载后的文件名
@@ -140,8 +140,6 @@ export default {
         this.$message.error('请先上传图片');
       }else{
         this.$message.error('正在加载中');
-        event.preventDefault();  
-        event.stopPropagation();  
       }
     },
 

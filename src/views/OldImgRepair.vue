@@ -29,8 +29,8 @@ import {sentBaseOld} from '@/api/index'
 	export default {
 		data() {
 			return {
-				valueUrl: '',
-				outUrl:'',
+				valueUrl: require("../assets/example/man.png"),
+				outUrl:require("../assets/example/manExample.png"),
 				isvideo:false
 			}
 		},
@@ -73,6 +73,7 @@ import {sentBaseOld} from '@/api/index'
 							message: '图片上传成功',
 							type: 'success'
 						});
+						this.isvideo=false
 						this.outUrl=require("../assets/loading.gif")
 						reader.onload = function() { // 文件读取完成后
 							// 读取完成后，将结果赋值给img的src
@@ -102,7 +103,7 @@ import {sentBaseOld} from '@/api/index'
 				}
 			},
 			downloadImage(event){
-				if (this.isvideo) {
+				if (this.outUrl&&this.outUrl!= require("../assets/loading.gif")) {
                     const link = document.createElement('a');
                     link.href = this.outUrl;
                     link.download = 'stylized_image.jpg'; // 设置下载后的文件名
@@ -111,11 +112,9 @@ import {sentBaseOld} from '@/api/index'
                     document.body.removeChild(link);
                 } else if(this.valueUrl=='') {
                     this.$message.error('请先上传图片');
-            	} else{
+            	} else if(this.isvideo==false){
 					this.$message.error('系统加载中');
                     // 如果图片被禁用，阻止点击事件的默认行为  
-                    event.preventDefault();  
-                    event.stopPropagation();  
 				}
 			}
 
