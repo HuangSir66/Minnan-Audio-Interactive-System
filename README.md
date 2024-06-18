@@ -1,4 +1,5 @@
-# minnanculture_vue
+# Minnan-Audio-Interactive-System
+
 
 ## Project setup
 ```
